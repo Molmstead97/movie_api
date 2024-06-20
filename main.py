@@ -51,7 +51,9 @@ async def update_movie(movie_id: uuid.UUID, updated_movie: UpdateMovieRequest) -
             movie.year = updated_movie.year
             return UpdateMovieResponse(success=True)
     
-    raise HTTPException(status_code=404, detail="Movie not found")
+    new_movie = Movie(movie_id=movie_id, name=updated_movie.name, year=updated_movie.year)
+    movies.append(new_movie)
+    return UpdateMovieResponse(success=True)
 
 @app.delete("/movies/{movie_id}")
 async def delete_movie(movie_id: uuid.UUID) -> DeleteMovieResponse:
